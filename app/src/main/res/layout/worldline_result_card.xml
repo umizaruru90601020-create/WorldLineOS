@@ -35,7 +35,7 @@
         android:paddingBottom="12dp" />
 
     <LinearLayout
-        android:id="@+id/wl_order_tags"
+        android:id="@+id/order_tags"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:paddingBottom="6dp" />
 
     <LinearLayout
-        android:id="@+id/wl_log_container"
+        android:id="@+id/log_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
