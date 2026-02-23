@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.worldline.os.R;
-import com.worldline.os.core.model.OutputControl;
+import com.worldline.os.core.OutputControl;
 import com.worldline.os.core.model.Correction;
+import com.worldline.os.core.model.Worldline;
 import com.worldline.os.ui.SharedViewModel;
 
 import java.util.List;
@@ -44,38 +45,40 @@ public class ResultFragment extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class);
 
-        sharedViewModel.getInputText().observe(
-                getViewLifecycleOwner(),
-                text -> {
-                    if (text != null && !text.trim().isEmpty()) {
-                        runPipeline(text);
-                    }
-                }
-        );
+        // 入力テキストが更新されたら自動解析
+        sharedViewModel.getInputText().observe(getViewLifecycleOwner(), text -> {
+            if (text != null && !text.trim().isEmpty()) {
+                runPipeline(text);
+            }
+        });
     }
 
-    private void runPipeline(String input) {
+    // ---------------------------------------------------------
+    // パイプライン実行
+    // ---------------------------------------------------------
+    private void runPipeline(String text) {
 
         resultContainer.removeAllViews();
 
-        List<OutputControl.OutputEntry> results = OutputControl.run(input);
+        OutputControl oc = sharedViewModel.runPipeline(text);
+        if (oc == null || oc.outputs == null) return;
 
-        for (OutputControl.OutputEntry e : results) {
+        LayoutInflater inflater = getLayoutInflater();
 
-            View card = getLayoutInflater().inflate(
-                    R.layout.item_worldline_card,
-                    resultContainer,
-                    false
-            );
+        for (OutputControl.OutputEntry e : oc.outputs) {
 
-            TextView title = card.findViewById(R.id.worldline_title);
-            TextView info = card.findViewById(R.id.worldline_info);
+            View card = inflater.inflate(R.layout.worldline_result_card, resultContainer, false);
+
+            TextView title = card.findViewById(R.id.wl_title);
+            TextView info = card.findViewById(R.id.wl_info);
             TextView reason = card.findViewById(R.id.worldline_reason);
-            TextView logText = card.findViewById(R.id.worldline_logs);
             LinearLayout orderTags = card.findViewById(R.id.order_tags);
-            LinearLayout logContainer = card.findViewById(R.id.log_container);
             TextView toggle = card.findViewById(R.id.toggle_logs);
+            LinearLayout logContainer = card.findViewById(R.id.worldline_logs);
 
+            // ----------------------------
+            // order タグ
+            // ----------------------------
             orderTags.removeAllViews();
 
             for (Integer num : e.worldline.order) {
@@ -99,11 +102,16 @@ public class ResultFragment extends Fragment {
                 orderTags.addView(tag);
             }
 
+            // ----------------------------
+            // テキスト設定
+            // ----------------------------
             title.setText(e.worldline.type);
-            info.setText("ランク: " + e.rank +
-                    "  スコア: " + String.format("%.1f", e.worldline.correctionScore));
+            info.setText("ランク: " + e.rank + "  スコア: " + String.format("%.1f", e.score));
             reason.setText(e.worldline.tag);
 
+            // ----------------------------
+            // 補正ログ
+            // ----------------------------
             StringBuilder sb = new StringBuilder();
             for (Correction c : e.worldline.logs) {
                 sb.append("・").append(c.name)
@@ -111,7 +119,13 @@ public class ResultFragment extends Fragment {
                         .append(": ").append(c.reason)
                         .append("\n");
             }
+
+            TextView logText = new TextView(getContext());
             logText.setText(sb.toString());
+            logText.setTextSize(14);
+            logText.setPadding(0, 10, 0, 10);
+
+            logContainer.addView(logText);
 
             toggle.setOnClickListener(v -> {
                 if (logContainer.getVisibility() == View.GONE) {
