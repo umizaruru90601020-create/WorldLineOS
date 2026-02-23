@@ -13,16 +13,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.worldline.os.R;
+import com.worldline.os.core.model.Worldline;
+import com.worldline.os.core.model.Correction;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SavedFragment extends Fragment {
 
     private LinearLayout savedContainer;
     private TextView emptyText;
+
+    private static final String PREF_NAME = "saved_worldlines";
+    private static final String KEY_LIST = "worldline_list";
+
+    private Gson gson = new Gson();
 
     @Nullable
     @Override
@@ -50,38 +59,46 @@ public class SavedFragment extends Fragment {
         savedContainer.removeAllViews();
 
         SharedPreferences prefs =
-                requireActivity().getSharedPreferences("saved_worldlines", Context.MODE_PRIVATE);
+                requireActivity().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        String json = prefs.getString("list", "[]");
+        String json = prefs.getString(KEY_LIST, "");
 
-        try {
-            JSONArray arr = new JSONArray(json);
-
-            if (arr.length() == 0) {
-                emptyText.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            emptyText.setVisibility(View.GONE);
-
-            for (int i = 0; i < arr.length(); i++) {
-
-                JSONObject obj = arr.getJSONObject(i);
-
-                String title = obj.optString("type", "worldline");
-                double score = obj.optDouble("score", 0);
-
-                TextView item = new TextView(getContext());
-                item.setText("[" + title + "] score: " + score);
-                item.setTextSize(16);
-                item.setPadding(20, 20, 20, 20);
-
-                savedContainer.addView(item);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (json == null || json.isEmpty()) {
             emptyText.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        Type type = new TypeToken<List<Worldline>>(){}.getType();
+        List<Worldline> list = gson.fromJson(json, type);
+
+        if (list == null || list.isEmpty()) {
+            emptyText.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        emptyText.setVisibility(View.GONE);
+
+        for (Worldline wl : list) {
+
+            TextView item = new TextView(getContext());
+            item.setTextSize(16);
+            item.setPadding(20, 20, 20, 20);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("[").append(wl.type).append("]\n");
+            sb.append("score: ").append(String.format("%.1f", wl.correctionScore)).append("\n");
+            sb.append("reason: ").append(wl.reason).append("\n\n");
+
+            sb.append("logs:\n");
+            for (Correction c : wl.logs) {
+                sb.append("・").append(c.name)
+                        .append(" (").append(c.value).append(")")
+                        .append(": ").append(c.reason)
+                        .append("\n");
+            }
+
+            item.setText(sb.toString());
+            savedContainer.addView(item);
         }
     }
 }

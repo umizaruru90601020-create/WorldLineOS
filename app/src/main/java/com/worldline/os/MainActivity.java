@@ -1,8 +1,10 @@
 package com.worldline.os;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.worldline.os.ui.input.InputFragment;
