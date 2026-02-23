@@ -200,7 +200,7 @@ public class OrderGenerator {
         for (Boat b : sorted) order.add(b.lane);
 
         wl.order = order;
-        wl.reason = "攻め艇が最も優勢。";
+        wl.tag = "攻め艇が最も優勢。";
 
         wl.correctionScore = calcWorldlineScore(sorted, wl);
         return wl;
@@ -219,7 +219,7 @@ public class OrderGenerator {
         for (Boat b : sorted) order.add(b.lane);
 
         wl.order = order;
-        wl.reason = "差し艇が旋回力で優勢。";
+        wl.tag = "差し艇が旋回力で優勢。";
 
         wl.correctionScore = calcWorldlineScore(sorted, wl);
         return wl;
@@ -238,7 +238,7 @@ public class OrderGenerator {
         for (Boat b : sorted) order.add(b.lane);
 
         wl.order = order;
-        wl.reason = "外伸びが強く、外攻め補正が成立。";
+        wl.tag = "外伸びが強く、外攻め補正が成立。";
 
         wl.correctionScore = calcWorldlineScore(sorted, wl);
         return wl;
@@ -257,7 +257,7 @@ public class OrderGenerator {
         for (Boat b : sorted) order.add(b.lane);
 
         wl.order = order;
-        wl.reason = "平均的な能力値が反映される世界線。";
+        wl.tag = "平均的な能力値が反映される世界線。";
 
         wl.correctionScore = calcWorldlineScore(sorted, wl);
         return wl;
@@ -276,7 +276,7 @@ public class OrderGenerator {
         for (Boat b : sorted) order.add(b.lane);
 
         wl.order = order;
-        wl.reason = "強艇補正と事故率が支配する混沌世界線。";
+        wl.tag = "強艇補正と事故率が支配する混沌世界線。";
 
         wl.correctionScore = calcWorldlineScore(sorted, wl);
         return wl;
