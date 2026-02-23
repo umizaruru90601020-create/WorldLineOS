@@ -4,14 +4,21 @@ import com.worldline.os.core.model.*;
 import com.worldline.os.core.order.OrderGenerator;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class CoreEngine {
 
     private final OrderGenerator orderGen = new OrderGenerator();
 
-    public ParsedInput parseInput(String raw) {
+    // ---------------------------------------------------------
+    // ① parse() → ParsedInput を作る
+    // ---------------------------------------------------------
+    public ParsedInput parse(String raw) {
+        return parseInput(raw);
+    }
+
+    // 旧 parseInput() を内部処理として残す
+    private ParsedInput parseInput(String raw) {
         ParsedInput p = new ParsedInput();
         p.raw = raw;
 
@@ -42,8 +49,15 @@ public class CoreEngine {
         return p;
     }
 
-    public WorldlineResult generateWorldlines(ParsedInput p) {
+    // ---------------------------------------------------------
+    // ② generate() → 世界線生成
+    // ---------------------------------------------------------
+    public WorldlineResult generate(ParsedInput p) {
+        return generateWorldlines(p);
+    }
 
+    // 旧 generateWorldlines() を内部処理として残す
+    private WorldlineResult generateWorldlines(ParsedInput p) {
         WorldlineResult result = new WorldlineResult();
         result.worldlines = new ArrayList<>();
 
@@ -56,9 +70,10 @@ public class CoreEngine {
         return result;
     }
 
-    // ★★★ 世界線スコアで rank を付ける本物ロジック ★★★
+    // ---------------------------------------------------------
+    // ③ score() → 世界線スコアで順位付け
+    // ---------------------------------------------------------
     public ScoredResult score(WorldlineResult wlResult) {
-
         ScoredResult s = new ScoredResult();
         s.entries = new ArrayList<>();
 
@@ -71,7 +86,7 @@ public class CoreEngine {
         for (Worldline wl : wlResult.worldlines) {
             s.entries.add(new ScoredResult.Entry(
                     wl,
-                    wl.correctionScore,   // ★ スコアは correctionScore を使用
+                    wl.correctionScore,
                     rank,
                     "世界線スコアによる順位付け"
             ));
@@ -81,6 +96,9 @@ public class CoreEngine {
         return s;
     }
 
+    // ---------------------------------------------------------
+    // ④ output() → 出力形式に変換
+    // ---------------------------------------------------------
     public OutputControl output(ScoredResult s) {
         OutputControl oc = new OutputControl();
         oc.policy = "topN";
@@ -89,11 +107,11 @@ public class CoreEngine {
 
         for (ScoredResult.Entry e : s.entries) {
             oc.outputs.add(new OutputControl.OutputEntry(
-                    e.worldline,
-                    e.score,
-                    e.rank,
-                    e.reason
-            ));
+        e.worldline,
+        e.rank,
+        e.score,
+        e.reason
+));
         }
 
         return oc;
