@@ -1,8 +1,60 @@
-<TextView
-    android:id="@+id/toggle_logs"
-    android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wl_card_root"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="▼ 補正ログを開く"
-    android:textSize="15sp"
-    android:textStyle="bold"
-    android:paddingBottom="6dp" />
+    android:background="@drawable/wl_card_background"
+    android:layout_marginBottom="16dp"
+    android:elevation="6dp">
+
+    <TextView
+        android:id="@+id/wl_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="世界線"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="6dp" />
+
+    <TextView
+        android:id="@+id/wl_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ランク・スコア"
+        android:textSize="15sp"
+        android:paddingBottom="6dp" />
+
+    <TextView
+        android:id="@+id/wl_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="理由"
+        android:textSize="15sp"
+        android:paddingBottom="12dp" />
+
+    <LinearLayout
+        android:id="@+id/wl_order_tags"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp" />
+
+    <TextView
+        android:id="@+id/toggle_logs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="▼ 補正ログを開く"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:paddingBottom="6dp" />
+
+    <LinearLayout
+        android:id="@+id/wl_log_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>
