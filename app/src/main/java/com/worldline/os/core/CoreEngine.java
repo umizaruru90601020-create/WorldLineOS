@@ -110,7 +110,7 @@ public class CoreEngine {
         e.worldline,
         e.rank,
         e.score,
-        e.reason
+        e.worldline.tag
 ));
         }
 
