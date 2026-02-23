@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.worldline.os.R;
-import com.worldline.os.core.OutputControl;
+import com.worldline.os.core.model.OutputControl;
 import com.worldline.os.core.model.Correction;
 import com.worldline.os.core.model.Worldline;
 import com.worldline.os.ui.SharedViewModel;
@@ -45,7 +45,7 @@ public class ResultFragment extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class);
 
-        // 入力テキストが更新されたら自動解析
+        // 入力テキストが更新されたらパイプライン実行
         sharedViewModel.getInputText().observe(getViewLifecycleOwner(), text -> {
             if (text != null && !text.trim().isEmpty()) {
                 runPipeline(text);
@@ -54,18 +54,18 @@ public class ResultFragment extends Fragment {
     }
 
     // ---------------------------------------------------------
-    // パイプライン実行
+    // パイプライン実行（OutputControl.run を直接呼ぶ）
     // ---------------------------------------------------------
     private void runPipeline(String text) {
 
         resultContainer.removeAllViews();
 
-        OutputControl oc = sharedViewModel.runPipeline(text);
-        if (oc == null || oc.outputs == null) return;
+        List<OutputControl.OutputEntry> outputs = OutputControl.run(text);
+        if (outputs == null) return;
 
         LayoutInflater inflater = getLayoutInflater();
 
-        for (OutputControl.OutputEntry e : oc.outputs) {
+        for (OutputControl.OutputEntry e : outputs) {
 
             View card = inflater.inflate(R.layout.worldline_result_card, resultContainer, false);
 
