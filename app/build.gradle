@@ -31,5 +31,4 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.7.0'
 
     // Gson（これが無いと今のエラーが出る）
-    implementation 'com.google.code.gson:gson:2.10.1'
-}
+    implementation "androidx.preference:preference:1.2.1"
