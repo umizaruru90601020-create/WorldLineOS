@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wl_card_root"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/wl_card_background"
+    android:layout_marginBottom="16dp"
+    android:elevation="6dp">
+
+    <!-- 世界線タイトル（タイプ） -->
+    <TextView
+        android:id="@+id/wl_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="世界線"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="6dp" />
+
+    <!-- ランク・スコア -->
+    <TextView
+        android:id="@+id/wl_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ランク・スコア"
+        android:textSize="15sp"
+        android:paddingBottom="6dp" />
+
+    <!-- 理由 -->
+    <TextView
+        android:id="@+id/wl_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="理由"
+        android:textSize="15sp"
+        android:paddingBottom="12dp" />
+
+    <!-- order タグ表示 -->
+    <LinearLayout
+        android:id="@+id/wl_order_tags"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp" />
+
+    <!-- 比較に追加 -->
+    <TextView
+        android:id="@+id/wl_compare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="＋ 比較に追加"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#0066CC"
+        android:paddingBottom="8dp" />
+
+    <!-- 保存 -->
+    <TextView
+        android:id="@+id/wl_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💾 保存する"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#009944"
+        android:paddingBottom="8dp" />
+
+    <!-- エクスポート -->
+    <TextView
+        android:id="@+id/wl_export"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="📤 エクスポート"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#AA5500"
+        android:paddingBottom="4dp" />
+
+    <!-- エクスポート形式選択 -->
+    <LinearLayout
+        android:id="@+id/export_options"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/export_png"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PNG"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#444444"
+            android:paddingRight="20dp" />
+
+        <TextView
+            android:id="@+id/export_pdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PDF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#444444"
+            android:paddingRight="20dp" />
+
+        <TextView
+            android:id="@+id/export_csv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CSV"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#444444" />
+
+    </LinearLayout>
+
+    <!-- 補正ログ開閉 -->
+    <TextView
+        android:id="@+id/wl_log_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="▼ 補正ログを開く"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:paddingBottom="6dp" />
+
+    <!-- 補正ログ本体 -->
+    <LinearLayout
+        android:id="@+id/wl_log_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>

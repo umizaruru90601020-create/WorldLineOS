@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_input"
+        android:icon="@drawable/ic_input"
+        android:title="INPUT" />
+
+    <item
+        android:id="@+id/nav_result"
+        android:icon="@drawable/ic_result"
+        android:title="RESULT" />
+
+    <item
+        android:id="@+id/nav_saved"
+        android:icon="@drawable/ic_saved"
+        android:title="SAVED" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="SETTINGS" />
+
+</menu>
