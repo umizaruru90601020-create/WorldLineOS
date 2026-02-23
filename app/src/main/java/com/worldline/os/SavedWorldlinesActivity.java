@@ -85,7 +85,7 @@ public class SavedWorldlinesActivity extends AppCompatActivity {
             StringBuilder sb = new StringBuilder();
             sb.append("タイプ: ").append(wl.type).append("\n");
             sb.append("スコア: ").append(String.format("%.1f", wl.correctionScore)).append("\n");
-            sb.append("理由: ").append(wl.reason).append("\n\n");
+            sb.append("理由: ").append(wl.tag).append("\n\n");
 
             sb.append("補正ログ:\n");
             for (Correction c : wl.logs) {
