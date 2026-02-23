@@ -40,7 +40,7 @@ public class CompareActivity extends Activity {
         container.addView(score);
 
         TextView reason = new TextView(this);
-        reason.setText("理由:\n" + wl.reason);
+        reason.setText("理由:\n" + wl.tag);
         reason.setTextSize(14);
         reason.setPadding(0, 0, 0, 12);
         container.addView(reason);
