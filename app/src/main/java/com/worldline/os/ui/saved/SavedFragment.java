@@ -87,7 +87,7 @@ public class SavedFragment extends Fragment {
             StringBuilder sb = new StringBuilder();
             sb.append("[").append(wl.type).append("]\n");
             sb.append("score: ").append(String.format("%.1f", wl.correctionScore)).append("\n");
-            sb.append("reason: ").append(wl.reason).append("\n\n");
+            sb.append("reason: ").append(wl.tag).append("\n\n");
 
             sb.append("logs:\n");
             for (Correction c : wl.logs) {

@@ -32,7 +32,7 @@ public class WorldlineDetailActivity extends Activity {
                     "スコア: " + String.format("%.1f", wl.correctionScore)
             );
 
-            reason.setText("理由: " + wl.reason);
+            reason.setText("理由: " + wl.tag);
 
             // 補正ログ表示
             StringBuilder sb = new StringBuilder();

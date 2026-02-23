@@ -21,7 +21,7 @@ public class CsvExporter {
         String line =
                 wl.type + "," +
                 wl.correctionScore + "," +
-                escape(wl.reason) + "," +
+                escape(wl.tag) + "," +
                 orderSb + "," +
                 wl.logs.size() + "," +
                 System.currentTimeMillis();
