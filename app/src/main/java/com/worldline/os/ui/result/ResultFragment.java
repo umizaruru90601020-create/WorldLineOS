@@ -102,7 +102,7 @@ public class ResultFragment extends Fragment {
             title.setText(e.worldline.type);
             info.setText("ランク: " + e.rank +
                     "  スコア: " + String.format("%.1f", e.worldline.correctionScore));
-            reason.setText(e.worldline.reason);
+            reason.setText(e.worldline.tag);
 
             StringBuilder sb = new StringBuilder();
             for (Correction c : e.worldline.logs) {
