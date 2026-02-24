@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
 import android.os.Environment;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,7 +24,7 @@ public class PdfExporter {
         return bitmap;
     }
 
-    // Bitmap → PDF ファイル（Downloads）
+    // Bitmap → PDF ファイル（Downloads に保存）
     public static File saveBitmapAsPdf(Context ctx, Bitmap bmp, String filename) throws Exception {
 
         PdfDocument pdf = new PdfDocument();
