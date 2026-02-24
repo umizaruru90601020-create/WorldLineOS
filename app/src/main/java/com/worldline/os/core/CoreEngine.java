@@ -84,17 +84,7 @@ public class CoreEngine {
 
         int rank = 1;
         for (Worldline wl : wlResult.worldlines) {
-            s.entries.add(new ScoredResult.Entry(
-                    wl,
-                    wl.correctionScore,
-                    rank,
-                    "世界線スコアによる順位付け"
-            ));
-            rank++;
-        }
-
-        return s;
-    }
+            s.entries.add(new ScoredResult.Entry(worldline, score));
 
     // ---------------------------------------------------------
     // ④ output() → 出力形式に変換
