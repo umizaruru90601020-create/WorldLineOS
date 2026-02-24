@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,8 +23,8 @@ public class PngExporter {
         return bitmap;
     }
 
-    // Bitmap → PNG ファイル（Downloads）
-    public static File saveBitmapToDownloads(Context ctx, Bitmap bmp, String filename) throws Exception {
+    // Bitmap → PNG ファイル（Downloads に保存）
+    public static File saveBitmapAsPng(Context ctx, Bitmap bmp, String filename) throws Exception {
 
         File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         if (!downloads.exists()) downloads.mkdirs();
