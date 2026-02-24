@@ -7,6 +7,7 @@ import java.util.List;
 
 public class OutputControl {
 
+    // 出力1件分
     public static class OutputEntry {
         public Worldline worldline;
         public int rank;
@@ -25,28 +26,29 @@ public class OutputControl {
     public int outputCount = 0;
     public String policy = "";
 
+    // OutputEntry を追加
     public void add(Worldline wl, int rank, double score, String reason) {
         outputs.add(new OutputEntry(wl, rank, score, reason));
         outputCount = outputs.size();
     }
 
     // ---------------------------------------------------------
-    // 公式 run() — CoreEngine を実行して OutputEntry を返す
+    // ★ パイプライン実行（唯一の入口）
     // ---------------------------------------------------------
     public static List<OutputEntry> run(String input) {
 
         CoreEngine engine = new CoreEngine();
 
-        // 1. パース
-        ParsedInput parsed = engine.parse(input);
+        // ① parseInput
+        ParsedInput parsed = engine.parseInput(input);
 
-        // 2. 世界線生成
-        WorldlineResult wlResult = engine.generate(parsed);
+        // ② generateWorldlines
+        WorldlineResult wlResult = engine.generateWorldlines(parsed);
 
-        // 3. スコアリング
+        // ③ score
         ScoredResult scored = engine.score(wlResult);
 
-        // 4. 出力制御
+        // ④ output
         OutputControl oc = engine.output(scored);
 
         return oc.outputs;
