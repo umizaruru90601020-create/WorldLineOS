@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.worldline.os.core.model.Correction;
 import com.worldline.os.core.model.Worldline;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class WorldlineCausalView extends View {
@@ -23,17 +24,15 @@ public class WorldlineCausalView extends View {
     private Paint textPaint;
     private Paint linePaint;
 
-    // アニメーション進行度（0.0 → 1.0）
     private float animProgress = 0f;
 
-    // ノード構造
     private static class Node {
         String label;
         float x, y;
         float width, height;
         int color;
-        float scale = 0.6f; // アニメ開始時の縮小率
-        float alpha = 0f;   // アニメ開始時の透明度
+        float scale = 0.6f;
+        float alpha = 0f;
     }
 
     private ArrayList<Node> nodes = new ArrayList<>();
@@ -72,9 +71,6 @@ public class WorldlineCausalView extends View {
         startAnimation();
     }
 
-    // -------------------------
-    // アニメーション開始
-    // -------------------------
     private void startAnimation() {
         animProgress = 0f;
 
@@ -104,23 +100,15 @@ public class WorldlineCausalView extends View {
         float x = startX;
         float y = startY;
 
-        // -------------------------
-        // 物理評価ノード
-        // -------------------------
         Node physical = makeNode("展示ST", x, y, Color.parseColor("#3A7AFE"));
         nodes.add(physical);
 
-        // -------------------------
-        // 中間因果：攻撃可能性
-        // -------------------------
         x += gapX;
         Node attack = makeNode("攻撃可能性", x, y, Color.parseColor("#AA44FF"));
         nodes.add(attack);
 
-        // -------------------------
-        // 補正ログ（複数）
-        // -------------------------
-        ArrayList<Correction> logs = worldline.logs;
+        // 修正①：List に変更
+        List<Correction> logs = worldline.logs;
 
         float logX = x + gapX;
         float logY = y;
@@ -128,7 +116,8 @@ public class WorldlineCausalView extends View {
         int count = 0;
         for (Correction c : logs) {
 
-            float sizeFactor = 1f + Math.min(Math.abs(c.value) / 5f, 1.5f);
+            // 修正②：float キャスト
+            float sizeFactor = 1f + (float) Math.min(Math.abs(c.value) / 5f, 1.5f);
 
             Node logNode = makeNode(
                     c.name,
@@ -149,9 +138,6 @@ public class WorldlineCausalView extends View {
             }
         }
 
-        // -------------------------
-        // 世界線タイプ
-        // -------------------------
         logY += gapY;
         Node typeNode = makeNode(
                 worldline.type,
@@ -161,9 +147,6 @@ public class WorldlineCausalView extends View {
         );
         nodes.add(typeNode);
 
-        // -------------------------
-        // order ノード
-        // -------------------------
         StringBuilder orderStr = new StringBuilder();
         for (int i = 0; i < worldline.order.size(); i++) {
             orderStr.append(worldline.order.get(i));
@@ -178,22 +161,15 @@ public class WorldlineCausalView extends View {
         );
         nodes.add(orderNode);
 
-        // -------------------------
-        // ノード描画（アニメーション付き）
-        // -------------------------
         for (Node n : nodes) {
             drawNode(canvas, n);
         }
 
-        // -------------------------
-        // 矢印描画（線が伸びるアニメーション）
-        // -------------------------
         for (int i = 0; i < nodes.size() - 1; i++) {
             drawArrow(canvas, nodes.get(i), nodes.get(i + 1));
         }
     }
 
-    // ノード生成
     private Node makeNode(String label, float x, float y, int color) {
         return makeNode(label, x, y, color, 1f);
     }
@@ -214,7 +190,6 @@ public class WorldlineCausalView extends View {
         return n;
     }
 
-    // ノード描画（フェードイン＋スケールアップ）
     private void drawNode(Canvas canvas, Node n) {
 
         float scale = 0.6f + 0.4f * animProgress;
@@ -233,7 +208,6 @@ public class WorldlineCausalView extends View {
 
         canvas.drawRoundRect(left, top, right, bottom, 30f, 30f, nodePaint);
 
-        // テキスト
         textPaint.setAlpha((int) (255 * alpha));
         float textWidth = textPaint.measureText(n.label);
         float textX = n.x - textWidth / 2;
@@ -242,7 +216,6 @@ public class WorldlineCausalView extends View {
         canvas.drawText(n.label, textX, textY, textPaint);
     }
 
-    // ベジェ曲線の矢印（線が伸びるアニメーション）
     private void drawArrow(Canvas canvas, Node from, Node to) {
 
         float startX = from.x + from.width / 2;
@@ -258,7 +231,6 @@ public class WorldlineCausalView extends View {
         path.moveTo(startX, startY);
         path.quadTo(controlX, controlY, endX, endY);
 
-        // アニメーション：線の長さを animProgress に応じて描く
         Path partial = new Path();
         pathMeasure.setPath(path, false);
         float length = pathMeasure.getLength();
